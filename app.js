@@ -40,6 +40,10 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+app.get("/api-docs", (req, res) => {
+  res.send("Swagger UI would be here.");
+});
+
 const start = async () => {
   await connectDB(process.env.MONGO_URI);
   app.listen(port, () => {
