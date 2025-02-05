@@ -40,8 +40,8 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.get("/api-docs", (req, res) => {
-  res.send("Swagger UI would be here.");
+app.get("/test", (req, res) => {
+  res.send("Test route is working!");
 });
 
 const start = async () => {
