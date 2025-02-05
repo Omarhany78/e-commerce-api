@@ -1,0 +1,451 @@
+openapi: 3.0.0
+info:
+  title: E-commerce Api
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+tags:
+  - name: Auth
+  - name: Users
+  - name: Products
+  - name: Carts
+  - name: Orders
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Bob
+                lastName: Joe
+                email: bobjoe@gmail.com
+                password: h57g438g3ddef4
+                phoneNumber: 10783517037
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: bobjoe@gmail.com
+                password: h57g438g3ddef4
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/logout:
+    get:
+      tags:
+        - Auth
+      summary: Logout User
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/request-password-reset:
+    get:
+      tags:
+        - Auth
+      summary: Request Password Reset
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/reset-password/{token}:
+    parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+        description: The Reset Password Token
+    post:
+      tags:
+        - Auth
+      summary: Reset Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                newPassword: theNewPassword123
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /users/:
+    get:
+      tags:
+        - Users
+      summary: Get All Users
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The User ID
+    get:
+      tags:
+        - Users
+      summary: Get Single User
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Get Current User
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Users
+      summary: Update Current User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Bob
+                lastName: Joe
+                phoneNumber: 64526442234
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Users
+      summary: Delete Current User
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /users/role/{id}:
+    get:
+      tags:
+        - Users
+      summary: Make User Admin
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Order ID
+    delete:
+      tags:
+        - Users
+      summary: Delete User
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /products:
+    post:
+      tags:
+        - Products
+      summary: Create Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Kitchen Machine
+                price: 100000
+                category: Plastic
+                quantity: 100
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Products
+      summary: Get All Products
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /products/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Product ID
+    get:
+      tags:
+        - Products
+      summary: Get Single Product
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Products
+      summary: Update Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                description: A very simple watch
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Products
+      summary: Delete Product
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /carts:
+    post:
+      tags:
+        - Carts
+      summary: Create Cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                items:
+                  - product: 679d3ad62d360f5821174617
+                    quantity: 1
+                  - product: 679d3ab92d360f5821174615
+                    quantity: 2
+                  - product: 679d3aab2d360f5821174613
+                    quantity: 5
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Carts
+      summary: Get Cart
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /carts/add:
+    post:
+      tags:
+        - Carts
+      summary: Add Item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                productId: 679d3aab2d360f5821174613
+                quantity: 1
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /carts/update:
+    patch:
+      tags:
+        - Carts
+      summary: Update Item Quantity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                productId: 6797ede8bfaf0844a1be6035
+                quantity: 15
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /carts/remove:
+    delete:
+      tags:
+        - Carts
+      summary: Remove Item
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /carts/empty:
+    delete:
+      tags:
+        - Carts
+      summary: Empty Cart
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /orders:
+    post:
+      tags:
+        - Orders
+      summary: Create Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                shippingAddress: Desouk
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Orders
+      summary: Get All My Orders
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /orders/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Order ID
+    get:
+      tags:
+        - Orders
+      summary: Get Single Order
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Orders
+      summary: Delete Order
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
