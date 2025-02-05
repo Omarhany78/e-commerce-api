@@ -36,6 +36,10 @@ app.use("/api/v1/orders", authenticate, orderRouter);
 app.use(notFound);
 app.use(errorHanlder);
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 const start = async () => {
   await connectDB(process.env.MONGO_URI);
   app.listen(port, () => {
